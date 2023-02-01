@@ -5,4 +5,6 @@ module com.iaroslaveremeev {
 
     opens com.iaroslaveremeev to javafx.fxml;
     exports com.iaroslaveremeev;
+    exports com.iaroslaveremeev.model;
+    exports com.iaroslaveremeev.dto;
 }
