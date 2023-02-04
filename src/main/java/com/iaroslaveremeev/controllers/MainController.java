@@ -109,4 +109,11 @@ public class MainController {
         }
     }
 
+    public void addStudent(ActionEvent actionEvent) throws IOException {
+        App.openWindow("/newStudent.fxml", null);
+        initStudentTable(this.table);
+    }
+
+    public void addCar(ActionEvent actionEvent) {
+    }
 }

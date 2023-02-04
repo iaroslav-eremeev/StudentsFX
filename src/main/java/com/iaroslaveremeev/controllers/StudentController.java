@@ -43,4 +43,5 @@ public class StudentController implements ControllerData<Student> {
         Stage stage = (Stage) deleteStudent.getScene().getWindow();
         stage.close();
     }
+
 }
