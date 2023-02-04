@@ -28,11 +28,8 @@ public class StudentRepository {
         if (httpURLConnection.getResponseCode() == 400) {
             try (BufferedReader bufferedReader = new BufferedReader(
                     new InputStreamReader(httpURLConnection.getErrorStream()))) {
-                String error = bufferedReader.readLine();
-                ResponseResult<List<Student>> result = new ResponseResult<>(error);
-                //TODO тут с сервера приходит dto - достать от туда сообщение от ошибке
-                //TODO Верно?
-                throw new IllegalArgumentException(String.valueOf(result));
+                ResponseResult<Object> result = new ResponseResult<>(bufferedReader.readLine());
+                throw new IllegalArgumentException(result.getMessage());
             }
         }
         return httpURLConnection.getInputStream();
@@ -50,7 +47,8 @@ public class StudentRepository {
     public Student get(int id) throws IOException {
         try (InputStream inputStream = getData(Constants.SERVER_URL + "/students?id=" + id, "GET")) {
             ObjectMapper mapper = new ObjectMapper();
-            return mapper.readValue(inputStream, Student.class);
+            ResponseResult<Student> result = mapper.readValue(inputStream, new TypeReference<>() {});
+            return result.getData();
         }
     }
 
@@ -61,8 +59,8 @@ public class StudentRepository {
                 "&num=" + student.getNum() +
                 "&salary=" + student.getSalary(), "POST");
         ObjectMapper mapper = new ObjectMapper();
-        //TODO dto
-        return mapper.readValue(inputStream, Student.class);
+        ResponseResult<Student> result = mapper.readValue(inputStream, new TypeReference<>() {});
+        return result.getData();
     }
 
     public Student update(Student student) throws IOException {
@@ -73,16 +71,16 @@ public class StudentRepository {
                 "&num=" + student.getNum() +
                 "&salary=" + student.getSalary(), "PUT");
         ObjectMapper mapper = new ObjectMapper();
-        //TODO dto
-        return mapper.readValue(inputStream, Student.class);
+        ResponseResult<Student> result = mapper.readValue(inputStream, new TypeReference<>() {});
+        return result.getData();
     }
 
     public Student delete(int id) throws IOException {
         try (InputStream inputStream = getData(Constants.SERVER_URL + "/students?id=" + id,
                 "DELETE")) {
             ObjectMapper mapper = new ObjectMapper();
-            //TODO dto
-            return mapper.readValue(inputStream, Student.class);
+            ResponseResult<Student> result = mapper.readValue(inputStream, new TypeReference<>() {});
+            return result.getData();
         }
     }
 }

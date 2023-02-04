@@ -28,8 +28,8 @@ public class AutoRepository {
         if (httpURLConnection.getResponseCode() == 400) {
             try (BufferedReader bufferedReader = new BufferedReader(
                     new InputStreamReader(httpURLConnection.getErrorStream()))) {
-                String error = bufferedReader.readLine();
-                throw new IllegalArgumentException(error);
+                ResponseResult<Object> result = new ResponseResult<>(bufferedReader.readLine());
+                throw new IllegalArgumentException(result.getMessage());
             }
         }
         return httpURLConnection.getInputStream();
@@ -58,7 +58,8 @@ public class AutoRepository {
                 "&year=" + auto.getYear() +
                 "&id_s=" + auto.getIdStudent(), "POST");
         ObjectMapper mapper = new ObjectMapper();
-        return mapper.readValue(inputStream, Auto.class);
+        ResponseResult<Auto> result = mapper.readValue(inputStream, new TypeReference<>() {});
+        return result.getData();
     }
 
     public Auto update(Auto auto) throws IOException {
@@ -69,14 +70,16 @@ public class AutoRepository {
                 "&year=" + auto.getYear() +
                 "&id_s=" + auto.getIdStudent(), "PUT");
         ObjectMapper mapper = new ObjectMapper();
-        return mapper.readValue(inputStream, Auto.class);
+        ResponseResult<Auto> result = mapper.readValue(inputStream, new TypeReference<>() {});
+        return result.getData();
     }
 
     public Auto delete(int id) throws IOException {
         try (InputStream inputStream = getData(Constants.SERVER_URL + "/auto?id=" + id,
                 "DELETE")) {
             ObjectMapper mapper = new ObjectMapper();
-            return mapper.readValue(inputStream, Auto.class);
+            ResponseResult<Auto> result = mapper.readValue(inputStream, new TypeReference<>() {});
+            return result.getData();
         }
     }
 }
