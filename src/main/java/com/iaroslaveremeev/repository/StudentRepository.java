@@ -17,6 +17,10 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 public class StudentRepository {
+
+    public StudentRepository() {
+    }
+
     private static InputStream getData(String link, String method) throws IOException {
         URL url = new URL(link);
         HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
@@ -25,6 +29,7 @@ public class StudentRepository {
             try (BufferedReader bufferedReader = new BufferedReader(
                     new InputStreamReader(httpURLConnection.getErrorStream()))) {
                 String error = bufferedReader.readLine();
+                //TODO тут с сервера приходит dtoб достать от туда сообщение от ошибке
                 throw new IllegalArgumentException(error);
             }
         }
@@ -35,13 +40,15 @@ public class StudentRepository {
         try (InputStream inputStream = getData(Constants.SERVER_URL + "/students",
                 "GET")) {
             ObjectMapper mapper = new ObjectMapper();
-            return mapper.readValue(inputStream, new TypeReference<>() {});
+            ResponseResult<List<Student>> result = mapper.readValue(inputStream, new TypeReference<>() {});
+            return result.getData();
         }
     }
 
     public Student get(int id) throws IOException {
         try (InputStream inputStream = getData(Constants.SERVER_URL + "/students?id=" + id, "GET")) {
             ObjectMapper mapper = new ObjectMapper();
+            //TODO dto
             return mapper.readValue(inputStream, Student.class);
         }
     }
@@ -53,6 +60,7 @@ public class StudentRepository {
                 "&num=" + student.getNum() +
                 "&salary=" + student.getSalary(), "POST");
         ObjectMapper mapper = new ObjectMapper();
+        //TODO dto
         return mapper.readValue(inputStream, Student.class);
     }
 
@@ -64,6 +72,7 @@ public class StudentRepository {
                 "&num=" + student.getNum() +
                 "&salary=" + student.getSalary(), "PUT");
         ObjectMapper mapper = new ObjectMapper();
+        //TODO dto
         return mapper.readValue(inputStream, Student.class);
     }
 
@@ -71,6 +80,7 @@ public class StudentRepository {
         try (InputStream inputStream = getData(Constants.SERVER_URL + "/students?id=" + id,
                 "DELETE")) {
             ObjectMapper mapper = new ObjectMapper();
+            //TODO dto
             return mapper.readValue(inputStream, Student.class);
         }
     }

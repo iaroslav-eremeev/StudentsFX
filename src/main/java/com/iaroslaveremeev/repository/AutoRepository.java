@@ -30,6 +30,9 @@ public class AutoRepository {
         return httpURLConnection.getInputStream();
     }
 
+    public AutoRepository() {
+    }
+
     public List<Auto> get() throws IOException {
         try (InputStream inputStream = getData(Constants.SERVER_URL + "/auto",
                 "GET")) {

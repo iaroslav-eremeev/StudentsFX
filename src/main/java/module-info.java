@@ -7,4 +7,6 @@ module com.iaroslaveremeev {
     exports com.iaroslaveremeev;
     exports com.iaroslaveremeev.model;
     exports com.iaroslaveremeev.dto;
+    exports com.iaroslaveremeev.controllers;
+    opens com.iaroslaveremeev.controllers to javafx.fxml;
 }

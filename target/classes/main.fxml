@@ -9,7 +9,7 @@
 <?import javafx.scene.input.KeyCodeCombination?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox alignment="TOP_CENTER" maxHeight="500.0" maxWidth="500.0" minHeight="500.0" minWidth="500.0" prefHeight="500.0" prefWidth="500.0" spacing="20.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.iaroslaveremeev.MainController">
+<VBox alignment="TOP_CENTER" maxHeight="500.0" maxWidth="500.0" minHeight="500.0" minWidth="500.0" prefHeight="500.0" prefWidth="500.0" spacing="20.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.iaroslaveremeev.controllers.MainController">
     <MenuBar prefHeight="26.0" prefWidth="376.0">
         <menus>
             <Menu mnemonicParsing="false" text="File">
@@ -24,7 +24,7 @@
         </menus>
     </MenuBar>
    <Button fx:id="getStudentsButton" mnemonicParsing="false" onAction="#getStudentsButton" prefHeight="26.0" prefWidth="194.0" text="Get relevant list of students" />
-   <TableView fx:id="mainTable" prefHeight="404.0" prefWidth="500.0">
+   <TableView fx:id="mainTable" onMouseClicked="#tableClick" prefHeight="404.0" prefWidth="500.0">
      <columns>
        <TableColumn fx:id="id" prefWidth="40.0" resizable="false" text="ID" />
        <TableColumn fx:id="name" prefWidth="190.0" resizable="false" text="NAME" />

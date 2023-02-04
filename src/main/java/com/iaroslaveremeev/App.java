@@ -1,11 +1,13 @@
 package com.iaroslaveremeev;
 
+import com.iaroslaveremeev.controllers.ControllerData;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import java.io.IOException;
 
@@ -39,5 +41,23 @@ public class App extends Application {
 
     public static void main(String[] args) {
         launch();
+    }
+
+    public static <T> Stage openWindow(String name, T data) throws IOException {
+        FXMLLoader loader = new FXMLLoader(App.class.getResource(name));
+
+        Stage stage = new Stage(StageStyle.DECORATED);
+        stage.setScene(
+                new Scene(loader.load())
+        );
+
+        if(data != null) {
+            ControllerData<T> controller = loader.getController();
+            controller.initData(data);
+        }
+
+        stage.showAndWait();
+
+        return stage;
     }
 }
