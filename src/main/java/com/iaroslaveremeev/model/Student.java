@@ -1,5 +1,9 @@
 package com.iaroslaveremeev.model;
 
+import com.iaroslaveremeev.repository.AutoRepository;
+
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class Student {

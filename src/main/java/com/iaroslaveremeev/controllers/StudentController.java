@@ -1,13 +1,19 @@
 package com.iaroslaveremeev.controllers;
 
+import com.iaroslaveremeev.model.Auto;
 import com.iaroslaveremeev.model.Student;
+import com.iaroslaveremeev.repository.AutoRepository;
 import com.iaroslaveremeev.repository.StudentRepository;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.List;
 
 public class StudentController implements ControllerData<Student> {
 
@@ -16,6 +22,7 @@ public class StudentController implements ControllerData<Student> {
     public TextField textFieldNumber;
     public TextField textFieldSalary;
     public Button deleteStudent;
+    public ListView<Auto> ListViewCars;
     private Student value;
 
     @Override
@@ -25,6 +32,11 @@ public class StudentController implements ControllerData<Student> {
         textFieldAge.setText(Integer.toString(value.getAge()));
         textFieldNumber.setText(Integer.toString(value.getNum()));
         textFieldSalary.setText(Double.toString(value.getSalary()));
+        AutoRepository autoRepository = new AutoRepository();
+        List<Auto> studentCars = autoRepository.getStudentCars(value.getId());
+        ObservableList<Auto> observableList = FXCollections.observableArrayList();
+        observableList.addAll(studentCars);
+        ListViewCars.setItems(observableList);
     }
 
     public void updateStudentData(ActionEvent actionEvent) throws IOException {

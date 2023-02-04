@@ -44,6 +44,17 @@ public class AutoRepository {
         }
     }
 
+    public List<Auto> getStudentCars(int idStudent){
+        try (InputStream inputStream = getData(Constants.SERVER_URL + "/auto?id_s=" + idStudent,
+                "GET")) {
+            ObjectMapper mapper = new ObjectMapper();
+            ResponseResult<List<Auto>> result = mapper.readValue(inputStream, new TypeReference<>() {});
+            return result.getData();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public Auto get(int id) throws IOException {
         try (InputStream inputStream = getData(Constants.SERVER_URL + "/auto?id=" + id, "GET")) {
             ObjectMapper mapper = new ObjectMapper();
