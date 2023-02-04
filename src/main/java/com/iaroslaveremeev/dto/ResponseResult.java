@@ -8,6 +8,9 @@ public class ResponseResult<T> {
     private String message;
     private T data;
 
+    public ResponseResult() {
+    }
+
     public ResponseResult(T data) {
         this.result = true;
         this.message = null;
@@ -19,9 +22,6 @@ public class ResponseResult<T> {
         this.result = false;
         this.message = errorMessage;
         this.data = null;
-    }
-
-    public ResponseResult() {
     }
 
     public boolean isResult() {

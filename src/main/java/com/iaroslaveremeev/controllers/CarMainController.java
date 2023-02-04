@@ -20,6 +20,9 @@ import java.util.List;
 public class CarMainController {
     public TableView carTable;
 
+    public void initialize() throws IOException {
+        initCarsTable();
+    }
     public void buttonSaveFile(ActionEvent actionEvent) {
         App.showAlertWithoutHeaderText("Error!", "You didn't chose any file", Alert.AlertType.ERROR);
     }

@@ -29,7 +29,7 @@ public class StudentRepository {
             try (BufferedReader bufferedReader = new BufferedReader(
                     new InputStreamReader(httpURLConnection.getErrorStream()))) {
                 String error = bufferedReader.readLine();
-                //TODO тут с сервера приходит dtoб достать от туда сообщение от ошибке
+                //TODO тут с сервера приходит dto б достать от туда сообщение от ошибке
                 throw new IllegalArgumentException(error);
             }
         }

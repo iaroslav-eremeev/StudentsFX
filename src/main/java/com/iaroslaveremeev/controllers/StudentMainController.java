@@ -25,6 +25,7 @@ public class StudentMainController {
     private TableView<Student> studentTable;
 
     public void initialize() throws IOException {
+        initStudentTable();
     }
 
     public void buttonSaveFile(ActionEvent actionEvent) {

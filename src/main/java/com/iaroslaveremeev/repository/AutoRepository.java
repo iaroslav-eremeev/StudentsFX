@@ -2,7 +2,9 @@ package com.iaroslaveremeev.repository;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.iaroslaveremeev.dto.ResponseResult;
 import com.iaroslaveremeev.model.Auto;
+import com.iaroslaveremeev.model.Student;
 import com.iaroslaveremeev.util.Constants;
 
 import java.io.BufferedReader;
@@ -16,6 +18,9 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 public class AutoRepository {
+
+    public AutoRepository() {
+    }
     private static InputStream getData(String link, String method) throws IOException {
         URL url = new URL(link);
         HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
@@ -30,14 +35,12 @@ public class AutoRepository {
         return httpURLConnection.getInputStream();
     }
 
-    public AutoRepository() {
-    }
-
     public List<Auto> get() throws IOException {
         try (InputStream inputStream = getData(Constants.SERVER_URL + "/auto",
                 "GET")) {
             ObjectMapper mapper = new ObjectMapper();
-            return mapper.readValue(inputStream, new TypeReference<>() {});
+            ResponseResult<List<Auto>> result = mapper.readValue(inputStream, new TypeReference<>() {});
+            return result.getData();
         }
     }
 
