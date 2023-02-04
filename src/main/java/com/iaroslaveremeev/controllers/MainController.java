@@ -53,7 +53,7 @@ public class MainController {
         salary.setCellValueFactory(new PropertyValueFactory<>("salary"));
         id.prefWidthProperty().bind(tableView.widthProperty().multiply(0.1));
         id.setResizable(false);
-        name.prefWidthProperty().bind(tableView.widthProperty().multiply(0.3));
+        name.prefWidthProperty().bind(tableView.widthProperty().multiply(0.29));
         name.setResizable(false);
         age.prefWidthProperty().bind(tableView.widthProperty().multiply(0.2));
         age.setResizable(false);
@@ -84,7 +84,7 @@ public class MainController {
         idStudent.setCellValueFactory(new PropertyValueFactory<>("idStudent"));
         id.prefWidthProperty().bind(tableView.widthProperty().multiply(0.1));
         id.setResizable(false);
-        brand.prefWidthProperty().bind(tableView.widthProperty().multiply(0.3));
+        brand.prefWidthProperty().bind(tableView.widthProperty().multiply(0.29));
         brand.setResizable(false);
         power.prefWidthProperty().bind(tableView.widthProperty().multiply(0.2));
         power.setResizable(false);

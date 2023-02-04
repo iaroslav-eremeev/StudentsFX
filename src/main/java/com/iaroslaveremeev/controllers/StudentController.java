@@ -13,6 +13,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class StudentController implements ControllerData<Student> {
@@ -22,7 +23,7 @@ public class StudentController implements ControllerData<Student> {
     public TextField textFieldNumber;
     public TextField textFieldSalary;
     public Button deleteStudent;
-    public ListView<Auto> ListViewCars;
+    public ListView<String> ListViewCars;
     private Student value;
 
     @Override
@@ -34,8 +35,13 @@ public class StudentController implements ControllerData<Student> {
         textFieldSalary.setText(Double.toString(value.getSalary()));
         AutoRepository autoRepository = new AutoRepository();
         List<Auto> studentCars = autoRepository.getStudentCars(value.getId());
-        ObservableList<Auto> observableList = FXCollections.observableArrayList();
-        observableList.addAll(studentCars);
+        List<String> stringsCars = new ArrayList<>();
+        for (int i = 0; i < studentCars.size(); i++) {
+            stringsCars.add(i+1 + ". " + studentCars.get(i).getBrand() + ", " + (studentCars.get(i).getPower() + " hp, " +
+                    studentCars.get(i).getYear()));
+        }
+        ObservableList<String> observableList = FXCollections.observableArrayList();
+        observableList.addAll(stringsCars);
         ListViewCars.setItems(observableList);
     }
 
