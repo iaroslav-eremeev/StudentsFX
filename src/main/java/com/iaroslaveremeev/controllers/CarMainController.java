@@ -8,11 +8,15 @@ import com.iaroslaveremeev.repository.StudentRepository;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import java.io.IOException;
 import java.util.List;
@@ -27,8 +31,14 @@ public class CarMainController {
         App.showAlertWithoutHeaderText("Error!", "You didn't chose any file", Alert.AlertType.ERROR);
     }
 
-    public void getStudentsButton(ActionEvent actionEvent) {
-
+    public void getStudentsButton(ActionEvent actionEvent) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(
+                getClass().getResource("/studentMain.fxml"));
+        Stage stage = new Stage(StageStyle.DECORATED);
+        stage.setScene(new Scene(fxmlLoader.load(), 500, 500));
+        stage.show();
+        Stage close = (Stage) this.carTable.getScene().getWindow();
+        close.close();
     }
 
     public void getCarsButton(ActionEvent actionEvent) throws IOException {
@@ -45,7 +55,7 @@ public class CarMainController {
         TableColumn<Auto, Integer> year = new TableColumn<>("YEAR");
         year.setCellValueFactory(new PropertyValueFactory<>("year"));
         TableColumn<Auto, Integer> idStudent = new TableColumn<>("STUDENT ID");
-        idStudent.setCellValueFactory(new PropertyValueFactory<>("id_s"));
+        idStudent.setCellValueFactory(new PropertyValueFactory<>("idStudent"));
         id.prefWidthProperty().bind(carTable.widthProperty().multiply(0.1));
         id.setResizable(false);
         brand.prefWidthProperty().bind(carTable.widthProperty().multiply(0.3));
