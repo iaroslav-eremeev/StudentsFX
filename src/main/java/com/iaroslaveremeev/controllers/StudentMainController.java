@@ -1,7 +1,9 @@
 package com.iaroslaveremeev.controllers;
 
 import com.iaroslaveremeev.App;
+import com.iaroslaveremeev.model.Auto;
 import com.iaroslaveremeev.model.Student;
+import com.iaroslaveremeev.repository.AutoRepository;
 import com.iaroslaveremeev.repository.StudentRepository;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -14,9 +16,10 @@ import javafx.scene.input.MouseEvent;
 import java.io.IOException;
 import java.util.List;
 
-public class MainController {
+public class StudentMainController {
     @FXML
-    public TableView<Student> mainTable;
+    private TableView<Student> studentTable;
+
     public void initialize() throws IOException {
     }
 
@@ -25,10 +28,10 @@ public class MainController {
     }
 
     public void getStudentsButton(ActionEvent actionEvent) throws IOException {
-        initTable();
+        initStudentTable();
     }
 
-    private void initTable() throws IOException {
+    private void initStudentTable() throws IOException {
         TableColumn<Student, Integer> id = new TableColumn<>("ID");
         id.setCellValueFactory(new PropertyValueFactory<>("id"));
         TableColumn<Student, String> name = new TableColumn<>("NAME");
@@ -39,17 +42,28 @@ public class MainController {
         num.setCellValueFactory(new PropertyValueFactory<>("num"));
         TableColumn<Student, Double> salary = new TableColumn<>("SALARY");
         salary.setCellValueFactory(new PropertyValueFactory<>("salary"));
+        id.prefWidthProperty().bind(studentTable.widthProperty().multiply(0.1));
+        id.setResizable(false);
+        name.prefWidthProperty().bind(studentTable.widthProperty().multiply(0.3));
+        name.setResizable(false);
+        age.prefWidthProperty().bind(studentTable.widthProperty().multiply(0.2));
+        age.setResizable(false);
+        num.prefWidthProperty().bind(studentTable.widthProperty().multiply(0.2));
+        num.setResizable(false);
+        salary.prefWidthProperty().bind(studentTable.widthProperty().multiply(0.2));
+        salary.setResizable(false);
+
         StudentRepository studentRepository = new StudentRepository();
         List<Student> students = studentRepository.get();
         ObservableList<Student> studentsList = FXCollections.observableArrayList(students);
-        mainTable.setItems(studentsList);
-        mainTable.getColumns().setAll(id, name, age, num, salary);
+        studentTable.setItems(studentsList);
+        studentTable.getColumns().setAll(id, name, age, num, salary);
     }
 
     public void tableClick(MouseEvent mouseEvent) throws IOException {
         if(mouseEvent.getClickCount() == 2){
-            App.openWindow("/student.fxml", this.mainTable.getSelectionModel().getSelectedItem());
-            initTable();
+            App.openWindow("/student.fxml", this.studentTable.getSelectionModel().getSelectedItem());
+            initStudentTable();
         }
     }
 }
