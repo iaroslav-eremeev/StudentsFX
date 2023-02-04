@@ -29,8 +29,10 @@ public class StudentRepository {
             try (BufferedReader bufferedReader = new BufferedReader(
                     new InputStreamReader(httpURLConnection.getErrorStream()))) {
                 String error = bufferedReader.readLine();
-                //TODO тут с сервера приходит dto б достать от туда сообщение от ошибке
-                throw new IllegalArgumentException(error);
+                ResponseResult<List<Student>> result = new ResponseResult<>(error);
+                //TODO тут с сервера приходит dto - достать от туда сообщение от ошибке
+                //TODO Верно?
+                throw new IllegalArgumentException(String.valueOf(result));
             }
         }
         return httpURLConnection.getInputStream();
@@ -48,7 +50,6 @@ public class StudentRepository {
     public Student get(int id) throws IOException {
         try (InputStream inputStream = getData(Constants.SERVER_URL + "/students?id=" + id, "GET")) {
             ObjectMapper mapper = new ObjectMapper();
-            //TODO dto
             return mapper.readValue(inputStream, Student.class);
         }
     }
