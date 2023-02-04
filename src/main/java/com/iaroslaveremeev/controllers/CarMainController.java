@@ -25,7 +25,7 @@ public class CarMainController {
     }
 
     public void getStudentsButton(ActionEvent actionEvent) {
-        initStudentTable();
+
     }
 
     public void getCarsButton(ActionEvent actionEvent) throws IOException {
@@ -61,10 +61,10 @@ public class CarMainController {
         carTable.getColumns().setAll(id, brand, power, year, idStudent);
     }
 
-    public void tableClick(MouseEvent mouseEvent) {
+    public void tableClick(MouseEvent mouseEvent) throws IOException {
         if(mouseEvent.getClickCount() == 2){
-            App.openWindow("/student.fxml", this.studentTable.getSelectionModel().getSelectedItem());
-            initStudentTable();
+            App.openWindow("/student.fxml", this.carTable.getSelectionModel().getSelectedItem());
+            initCarsTable();
         }
     }
 }

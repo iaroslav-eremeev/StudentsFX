@@ -9,9 +9,13 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import java.io.IOException;
 import java.util.List;
@@ -29,6 +33,16 @@ public class StudentMainController {
 
     public void getStudentsButton(ActionEvent actionEvent) throws IOException {
         initStudentTable();
+    }
+
+    public void getCarsButton(ActionEvent actionEvent) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(
+                getClass().getResource("/carMain.fxml"));
+        Stage stage = new Stage(StageStyle.DECORATED);
+        stage.setScene(new Scene(fxmlLoader.load(), 500, 500));
+        stage.show();
+        Stage close = (Stage) this.studentTable.getScene().getWindow();
+        close.close();
     }
 
     private void initStudentTable() throws IOException {
