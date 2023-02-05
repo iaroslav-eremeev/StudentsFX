@@ -1,5 +1,6 @@
 package com.iaroslaveremeev.controllers;
 
+import com.iaroslaveremeev.App;
 import com.iaroslaveremeev.model.Auto;
 import com.iaroslaveremeev.model.Student;
 import com.iaroslaveremeev.repository.AutoRepository;
@@ -10,6 +11,7 @@ import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -23,8 +25,9 @@ public class StudentController implements ControllerData<Student> {
     public TextField textFieldNumber;
     public TextField textFieldSalary;
     public Button deleteStudent;
-    public ListView<String> ListViewCars;
+    public ListView<String> listViewCars;
     private Student value;
+    private List<Auto> studentCars;
 
     @Override
     public void initData(Student value) {
@@ -34,15 +37,16 @@ public class StudentController implements ControllerData<Student> {
         textFieldNumber.setText(Integer.toString(value.getNum()));
         textFieldSalary.setText(Double.toString(value.getSalary()));
         AutoRepository autoRepository = new AutoRepository();
-        List<Auto> studentCars = autoRepository.getStudentCars(value.getId());
+        this.studentCars = autoRepository.getStudentCars(value.getId());
         List<String> stringsCars = new ArrayList<>();
         for (int i = 0; i < studentCars.size(); i++) {
-            stringsCars.add(i+1 + ". " + studentCars.get(i).getBrand() + ", " + (studentCars.get(i).getPower() + " hp, " +
+            stringsCars.add("id " + studentCars.get(i).getId() + ". " + studentCars.get(i).getBrand() + ", " +
+                    (studentCars.get(i).getPower() + " hp, " +
                     studentCars.get(i).getYear()));
         }
         ObservableList<String> observableList = FXCollections.observableArrayList();
         observableList.addAll(stringsCars);
-        ListViewCars.setItems(observableList);
+        listViewCars.setItems(observableList);
     }
 
     public void updateStudentData(ActionEvent actionEvent) throws IOException {
@@ -61,5 +65,19 @@ public class StudentController implements ControllerData<Student> {
         Stage stage = (Stage) deleteStudent.getScene().getWindow();
         stage.close();
     }
-
+    public Auto autoFromString(String autoString) throws IOException {
+        AutoRepository autoRepository = new AutoRepository();
+        Auto car = new Auto();
+        String[] strings = autoString.replace(".", "").substring(3).split(" ");
+        int carId = Integer.parseInt(strings[0]);
+        car = autoRepository.get(carId);
+        return car;
+    }
+    public void listViewClick(MouseEvent mouseEvent) throws IOException {
+        if(mouseEvent.getClickCount() == 2){
+            App.openWindow("/car.fxml", autoFromString(this.listViewCars.getSelectionModel().getSelectedItem()));
+            Stage stage = (Stage) deleteStudent.getScene().getWindow();
+            stage.close();
+        }
+    }
 }

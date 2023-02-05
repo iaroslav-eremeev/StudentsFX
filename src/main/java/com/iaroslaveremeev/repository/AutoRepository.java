@@ -58,7 +58,8 @@ public class AutoRepository {
     public Auto get(int id) throws IOException {
         try (InputStream inputStream = getData(Constants.SERVER_URL + "/auto?id=" + id, "GET")) {
             ObjectMapper mapper = new ObjectMapper();
-            return mapper.readValue(inputStream, Auto.class);
+            ResponseResult<Auto> result = mapper.readValue(inputStream, new TypeReference<>() {});
+            return result.getData();
         }
     }
 

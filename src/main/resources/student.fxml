@@ -75,7 +75,7 @@
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </VBox.margin>
                   </TextField>
-                  <ListView fx:id="ListViewCars" prefHeight="25.0" prefWidth="298.0">
+                  <ListView fx:id="listViewCars" onMouseClicked="#listViewClick" prefHeight="25.0" prefWidth="298.0">
                      <VBox.margin>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </VBox.margin>
