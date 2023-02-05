@@ -4,15 +4,13 @@ import com.iaroslaveremeev.model.Auto;
 import com.iaroslaveremeev.model.Student;
 import com.iaroslaveremeev.repository.AutoRepository;
 import com.iaroslaveremeev.repository.StudentRepository;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class CarController implements ControllerData<Auto> {
@@ -43,9 +41,20 @@ public class CarController implements ControllerData<Auto> {
         studentInfo.setText(thisCarOwner);
     }
 
-    public void updateCarData(ActionEvent actionEvent) {
+    public void updateCarData(ActionEvent actionEvent) throws IOException {
+        this.value.setBrand(textFieldBrand.getText());
+        this.value.setPower(Integer.parseInt(textFieldPower.getText()));
+        this.value.setYear(Integer.parseInt(textFieldYear.getText()));
+        this.value.setIdStudent(Integer.parseInt(textFieldIdStudent.getText()));
+        AutoRepository autoRepository = new AutoRepository();
+        autoRepository.update(this.value);
     }
 
-    public void deleteCar(ActionEvent actionEvent) {
+    public void deleteCar(ActionEvent actionEvent) throws IOException {
+        int id = this.value.getId();
+        AutoRepository autoRepository = new AutoRepository();
+        autoRepository.delete(id);
+        Stage stage = (Stage) deleteCar.getScene().getWindow();
+        stage.close();
     }
 }
