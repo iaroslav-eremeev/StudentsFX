@@ -106,6 +106,10 @@ public class MainController {
                 App.openWindow("/student.fxml", this.table.getSelectionModel().getSelectedItem());
                 initStudentTable(this.table);
             }
+            else if (!tableShowsStudents){
+                App.openWindow("/car.fxml", this.table.getSelectionModel().getSelectedItem());
+                initCarsTable(this.table);
+            }
         }
     }
 
