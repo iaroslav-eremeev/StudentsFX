@@ -29,6 +29,10 @@ public class CarController implements ControllerData<Auto> {
         textFieldPower.setText(Integer.toString(value.getPower()));
         textFieldYear.setText(Integer.toString(value.getYear()));
         textFieldIdStudent.setText(Integer.toString(value.getIdStudent()));
+        getStudentInfo();
+    }
+
+    private void getStudentInfo() throws IOException {
         StudentRepository studentRepository = new StudentRepository();
         List<Student> students = studentRepository.get();
         String thisCarOwner = "";
@@ -48,6 +52,7 @@ public class CarController implements ControllerData<Auto> {
         this.value.setIdStudent(Integer.parseInt(textFieldIdStudent.getText()));
         AutoRepository autoRepository = new AutoRepository();
         autoRepository.update(this.value);
+        getStudentInfo();
     }
 
     public void deleteCar(ActionEvent actionEvent) throws IOException {
@@ -57,4 +62,6 @@ public class CarController implements ControllerData<Auto> {
         Stage stage = (Stage) deleteCar.getScene().getWindow();
         stage.close();
     }
+
+
 }
