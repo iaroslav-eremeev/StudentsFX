@@ -30,96 +30,135 @@ public class MainController {
         App.showAlertWithoutHeaderText("Error!", "You didn't chose any file", Alert.AlertType.ERROR);
     }
 
-    public void getStudentsButton(ActionEvent actionEvent) throws IOException {
-        initStudentTable(this.table);
-    }
-
-    public void getCarsButton(ActionEvent actionEvent) throws IOException {
-        initCarsTable(this.table);
-    }
-
-    private void initStudentTable(TableView<Student> tableView) throws IOException {
-        tableView.getColumns().clear();
-        this.tableShowsStudents = true;
-        TableColumn<Student, Integer> id = new TableColumn<>("ID");
-        id.setCellValueFactory(new PropertyValueFactory<>("id"));
-        TableColumn<Student, String> name = new TableColumn<>("NAME");
-        name.setCellValueFactory(new PropertyValueFactory<>("fio"));
-        TableColumn<Student, Integer> age = new TableColumn<>("AGE");
-        age.setCellValueFactory(new PropertyValueFactory<>("age"));
-        TableColumn<Student, Integer> num = new TableColumn<>("NUMBER");
-        num.setCellValueFactory(new PropertyValueFactory<>("num"));
-        TableColumn<Student, Double> salary = new TableColumn<>("SALARY");
-        salary.setCellValueFactory(new PropertyValueFactory<>("salary"));
-        id.prefWidthProperty().bind(tableView.widthProperty().multiply(0.1));
-        id.setResizable(false);
-        name.prefWidthProperty().bind(tableView.widthProperty().multiply(0.29));
-        name.setResizable(false);
-        age.prefWidthProperty().bind(tableView.widthProperty().multiply(0.2));
-        age.setResizable(false);
-        num.prefWidthProperty().bind(tableView.widthProperty().multiply(0.2));
-        num.setResizable(false);
-        salary.prefWidthProperty().bind(tableView.widthProperty().multiply(0.2));
-        salary.setResizable(false);
-
-        StudentRepository studentRepository = new StudentRepository();
-        List<Student> students = studentRepository.get();
-        ObservableList<Student> studentsList = FXCollections.observableArrayList(students);
-        tableView.setItems(studentsList);
-        tableView.getColumns().setAll(id, name, age, num, salary);
-    }
-
-    private void initCarsTable(TableView tableView) throws IOException {
-        tableView.getColumns().clear();
-        this.tableShowsStudents = false;
-        TableColumn<Auto, Integer> id = new TableColumn<>("ID");
-        id.setCellValueFactory(new PropertyValueFactory<>("id"));
-        TableColumn<Auto, String> brand = new TableColumn<>("BRAND");
-        brand.setCellValueFactory(new PropertyValueFactory<>("brand"));
-        TableColumn<Auto, Integer> power = new TableColumn<>("POWER");
-        power.setCellValueFactory(new PropertyValueFactory<>("power"));
-        TableColumn<Auto, Integer> year = new TableColumn<>("YEAR");
-        year.setCellValueFactory(new PropertyValueFactory<>("year"));
-        TableColumn<Auto, Integer> idStudent = new TableColumn<>("STUDENT ID");
-        idStudent.setCellValueFactory(new PropertyValueFactory<>("idStudent"));
-        id.prefWidthProperty().bind(tableView.widthProperty().multiply(0.1));
-        id.setResizable(false);
-        brand.prefWidthProperty().bind(tableView.widthProperty().multiply(0.29));
-        brand.setResizable(false);
-        power.prefWidthProperty().bind(tableView.widthProperty().multiply(0.2));
-        power.setResizable(false);
-        year.prefWidthProperty().bind(tableView.widthProperty().multiply(0.2));
-        year.setResizable(false);
-        idStudent.prefWidthProperty().bind(tableView.widthProperty().multiply(0.2));
-        idStudent.setResizable(false);
-
-        AutoRepository autoRepository = new AutoRepository();
-        List<Auto> cars = autoRepository.get();
-        ObservableList<Auto> carsList = FXCollections.observableArrayList(cars);
-        tableView.setItems(carsList);
-        tableView.getColumns().setAll(id, brand, power, year, idStudent);
-    }
-
-    public void tableClick(MouseEvent mouseEvent) throws IOException {
-        if(mouseEvent.getClickCount() == 2){
-            if (tableShowsStudents){
-                App.openWindow("/student.fxml", this.table.getSelectionModel().getSelectedItem());
-                initStudentTable(this.table);
-            }
-            else if (!tableShowsStudents){
-                App.openWindow("/car.fxml", this.table.getSelectionModel().getSelectedItem());
-                initCarsTable(this.table);
-            }
+    public void getStudentsButton(ActionEvent actionEvent) {
+        try {
+            initStudentTable(this.table);
+        } catch (IOException e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Students' data initialization failed. " +
+                    "Check connection and server settings!");
+            alert.show();
         }
     }
 
-    public void addStudent(ActionEvent actionEvent) throws IOException {
-        App.openWindow("/newStudent.fxml", null);
-        initStudentTable(this.table);
+    public void getCarsButton(ActionEvent actionEvent) throws IOException {
+        try {
+            initCarsTable(this.table);
+        } catch (IOException e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Cars' data initialization failed. " +
+                    "Check connection and server settings!");
+            alert.show();
+        }
     }
 
-    public void addCar(ActionEvent actionEvent) throws IOException {
-        App.openWindow("/newCar.fxml", null);
-        initCarsTable(this.table);
+    private void initStudentTable(TableView<Student> tableView) throws IOException {
+        try {
+            tableView.getColumns().clear();
+            this.tableShowsStudents = true;
+            TableColumn<Student, Integer> id = new TableColumn<>("ID");
+            id.setCellValueFactory(new PropertyValueFactory<>("id"));
+            TableColumn<Student, String> name = new TableColumn<>("NAME");
+            name.setCellValueFactory(new PropertyValueFactory<>("fio"));
+            TableColumn<Student, Integer> age = new TableColumn<>("AGE");
+            age.setCellValueFactory(new PropertyValueFactory<>("age"));
+            TableColumn<Student, Integer> num = new TableColumn<>("NUMBER");
+            num.setCellValueFactory(new PropertyValueFactory<>("num"));
+            TableColumn<Student, Double> salary = new TableColumn<>("SALARY");
+            salary.setCellValueFactory(new PropertyValueFactory<>("salary"));
+            id.prefWidthProperty().bind(tableView.widthProperty().multiply(0.1));
+            id.setResizable(false);
+            name.prefWidthProperty().bind(tableView.widthProperty().multiply(0.29));
+            name.setResizable(false);
+            age.prefWidthProperty().bind(tableView.widthProperty().multiply(0.2));
+            age.setResizable(false);
+            num.prefWidthProperty().bind(tableView.widthProperty().multiply(0.2));
+            num.setResizable(false);
+            salary.prefWidthProperty().bind(tableView.widthProperty().multiply(0.2));
+            salary.setResizable(false);
+
+            StudentRepository studentRepository = new StudentRepository();
+            List<Student> students = studentRepository.get();
+            ObservableList<Student> studentsList = FXCollections.observableArrayList(students);
+            tableView.setItems(studentsList);
+            tableView.getColumns().setAll(id, name, age, num, salary);
+        } catch (IOException e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Students' data initialization failed. " +
+                    "Check connection and server settings!");
+            alert.show();
+        }
+    }
+
+    private void initCarsTable(TableView tableView) throws IOException {
+        try {
+            tableView.getColumns().clear();
+            this.tableShowsStudents = false;
+            TableColumn<Auto, Integer> id = new TableColumn<>("ID");
+            id.setCellValueFactory(new PropertyValueFactory<>("id"));
+            TableColumn<Auto, String> brand = new TableColumn<>("BRAND");
+            brand.setCellValueFactory(new PropertyValueFactory<>("brand"));
+            TableColumn<Auto, Integer> power = new TableColumn<>("POWER");
+            power.setCellValueFactory(new PropertyValueFactory<>("power"));
+            TableColumn<Auto, Integer> year = new TableColumn<>("YEAR");
+            year.setCellValueFactory(new PropertyValueFactory<>("year"));
+            TableColumn<Auto, Integer> idStudent = new TableColumn<>("STUDENT ID");
+            idStudent.setCellValueFactory(new PropertyValueFactory<>("idStudent"));
+            id.prefWidthProperty().bind(tableView.widthProperty().multiply(0.1));
+            id.setResizable(false);
+            brand.prefWidthProperty().bind(tableView.widthProperty().multiply(0.29));
+            brand.setResizable(false);
+            power.prefWidthProperty().bind(tableView.widthProperty().multiply(0.2));
+            power.setResizable(false);
+            year.prefWidthProperty().bind(tableView.widthProperty().multiply(0.2));
+            year.setResizable(false);
+            idStudent.prefWidthProperty().bind(tableView.widthProperty().multiply(0.2));
+            idStudent.setResizable(false);
+
+            AutoRepository autoRepository = new AutoRepository();
+            List<Auto> cars = autoRepository.get();
+            ObservableList<Auto> carsList = FXCollections.observableArrayList(cars);
+            tableView.setItems(carsList);
+            tableView.getColumns().setAll(id, brand, power, year, idStudent);
+        } catch (IOException e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Cars' data initialization failed." +
+                    " Check connection and server settings!");
+            alert.show();
+        }
+    }
+
+    public void tableClick(MouseEvent mouseEvent) {
+        try {
+            if(mouseEvent.getClickCount() == 2){
+                if (tableShowsStudents){
+                    App.openWindow("/student.fxml", this.table.getSelectionModel().getSelectedItem());
+                    initStudentTable(this.table);
+                }
+                else {
+                    App.openWindow("/car.fxml", this.table.getSelectionModel().getSelectedItem());
+                    initCarsTable(this.table);
+                }
+            }
+        } catch (IOException e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Choosing the item failed. Check connection and server settings!");
+            alert.show();
+        }
+    }
+
+    public void addStudent(ActionEvent actionEvent) {
+        try {
+            App.openWindow("/newStudent.fxml", null);
+            initStudentTable(this.table);
+        } catch (IOException e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Adding new student failed. Check connection and server settings!");
+            alert.show();
+        }
+    }
+
+    public void addCar(ActionEvent actionEvent) {
+        try {
+            App.openWindow("/newCar.fxml", null);
+            initCarsTable(this.table);
+        } catch (IOException e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Adding new car failed. Check connection and server settings!");
+            alert.show();
+        }
     }
 }

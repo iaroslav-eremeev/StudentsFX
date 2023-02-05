@@ -8,6 +8,7 @@ import com.iaroslaveremeev.repository.StudentRepository;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
@@ -49,35 +50,60 @@ public class StudentController implements ControllerData<Student> {
         listViewCars.setItems(observableList);
     }
 
-    public void updateStudentData(ActionEvent actionEvent) throws IOException {
-        this.value.setFio(textFieldName.getText());
-        this.value.setAge(Integer.parseInt(textFieldAge.getText()));
-        this.value.setNum(Integer.parseInt(textFieldNumber.getText()));
-        this.value.setSalary(Double.parseDouble(textFieldSalary.getText()));
-        StudentRepository studentRepository = new StudentRepository();
-        studentRepository.update(this.value);
+    public void updateStudentData(ActionEvent actionEvent) {
+        try {
+            this.value.setFio(textFieldName.getText());
+            this.value.setAge(Integer.parseInt(textFieldAge.getText()));
+            this.value.setNum(Integer.parseInt(textFieldNumber.getText()));
+            this.value.setSalary(Double.parseDouble(textFieldSalary.getText()));
+            StudentRepository studentRepository = new StudentRepository();
+            studentRepository.update(this.value);
+        } catch (NumberFormatException | IOException e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Update failed. " +
+                    "Check input spelling, connection and server settings!");
+            alert.show();
+        }
     }
 
-    public void deleteStudent(ActionEvent actionEvent) throws IOException {
-        int id = this.value.getId();
-        StudentRepository studentRepository = new StudentRepository();
-        studentRepository.delete(id);
-        Stage stage = (Stage) deleteStudent.getScene().getWindow();
-        stage.close();
-    }
-    public Auto autoFromString(String autoString) throws IOException {
-        AutoRepository autoRepository = new AutoRepository();
-        Auto car = new Auto();
-        String[] strings = autoString.replace(".", "").substring(3).split(" ");
-        int carId = Integer.parseInt(strings[0]);
-        car = autoRepository.get(carId);
-        return car;
-    }
-    public void listViewClick(MouseEvent mouseEvent) throws IOException {
-        if(mouseEvent.getClickCount() == 2){
-            App.openWindow("/car.fxml", autoFromString(this.listViewCars.getSelectionModel().getSelectedItem()));
+    public void deleteStudent(ActionEvent actionEvent) {
+        try {
+            int id = this.value.getId();
+            StudentRepository studentRepository = new StudentRepository();
+            studentRepository.delete(id);
             Stage stage = (Stage) deleteStudent.getScene().getWindow();
             stage.close();
+        } catch (IOException e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Deletion failed. " +
+                    "Check connection and server settings!");
+            alert.show();
+        }
+    }
+    public Auto autoFromString(String autoString) throws IOException {
+        try {
+            AutoRepository autoRepository = new AutoRepository();
+            Auto car = new Auto();
+            String[] strings = autoString.replace(".", "").substring(3).split(" ");
+            int carId = Integer.parseInt(strings[0]);
+            car = autoRepository.get(carId);
+            return car;
+        } catch (NumberFormatException | IOException e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Cars' data initialization failed." +
+                    " Check input spelling, connection and server settings!");
+            alert.show();
+        }
+        return null;
+    }
+    public void listViewClick(MouseEvent mouseEvent) {
+        try {
+            if(mouseEvent.getClickCount() == 2){
+                App.openWindow("/car.fxml", autoFromString(this.listViewCars.getSelectionModel().getSelectedItem()));
+                Stage stage = (Stage) deleteStudent.getScene().getWindow();
+                stage.close();
+            }
+        } catch (IOException e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Cars' data initialization failed." +
+                    " Check connection and server settings!");
+            alert.show();
         }
     }
 }
